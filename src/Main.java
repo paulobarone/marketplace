@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
@@ -19,15 +20,12 @@ public class Main {
         case 2:
           removeProduct(scanner);
           break;
-//        case 3:
-//          addDiscount(scanner);
-//          break;
-        case 4:
+        case 3:
           addCategory(scanner);
           break;
-//        case 5:
-//          removeCategory(scanner);
-//          break;
+        case 4:
+          removeCategory(scanner);
+          break;
         case 0:
           System.out.println("Leaving the program...");
           scanner.close();
@@ -42,11 +40,9 @@ public class Main {
     System.out.println("\n=== Menu ===");
     System.out.println("1. Add Product");
     System.out.println("2. Remove Product");
-    System.out.println("3. Add Discount");
-    System.out.println("4. Add Category");
-    System.out.println("5. Remove Category");
+    System.out.println("3. Add Categories");
     System.out.println("0. Exit");
-    System.out.print("> Choose: ");
+    System.out.print("\n> Choose: ");
   }
 
   private static void addProduct(Scanner scanner) {
@@ -60,30 +56,35 @@ public class Main {
 
     if(categoryList.isEmpty()) {
       System.out.println("\n- Add a category to continue");
+      showMenu();
+    }
+
+    System.out.println("\n=== Categories ===");
+    System.out.println("0. Add another Category");
+    for(int i = 1; i <= categoryList.size(); i++) {
+      System.out.printf("%s. %s%n", i, categoryList.get(i - 1));
+    }
+    System.out.print("\n> Choose: ");
+    int productCategory = scanner.nextInt();
+
+    if(productCategory == 0) {
       addCategory(scanner);
     }
 
-    int productCategory;
-    while(true) {
-      System.out.println("\n=== Categories ===");
-      System.out.println("0. Add other category");
-      for(int i = 1; i <= categoryList.size(); i++) {
-        System.out.printf("%s. %s%n", i, categoryList.get(i - 1));
-      }
-      System.out.print("\n> Choose: ");
-      productCategory = scanner.nextInt();
+    System.out.print("\n> Discount (0-100): ");
+    int productDiscount = scanner.nextInt();
 
-      if(productCategory == 0) {
-        addCategory(scanner);
-      } else {
-        break;
-      }
-    }
-
-    Product newProduct = new Product(productName, productPrice, categoryList.get(productCategory - 1));
+    Product newProduct = new Product(productName, productPrice, categoryList.get(productCategory - 1), productDiscount);
     productList.add(newProduct);
     System.out.println("\nProduct added successfully!");
-    System.out.printf("Name: %s | Price: %s | Category: %s\n", newProduct.getProductName(), newProduct.getProductPrice(), newProduct.getProductCategory());
+    System.out.printf(
+      "Name: %s | Price: %s | Price with Discount: %s | Category: %s | Discount: %d%%\n",
+      newProduct.getName(),
+      newProduct.getFormatedPrice(),
+      newProduct.getFormatedPriceWithDiscount(),
+      newProduct.getCategory(),
+      newProduct.getDiscountPercentage()
+    );
   }
 
   private static void removeProduct(Scanner scanner) {
@@ -95,14 +96,33 @@ public class Main {
       System.out.println("\n=== Products ===");
       System.out.println("0. Back");
       for(int i = 1; i <= productList.size(); i++) {
-        System.out.printf("%s. Name: %s | Price: %s | Category: %s%n", i, productList.get(i - 1).getProductName(), productList.get(i - 1).getProductPrice(), productList.get(i - 1).getProductCategory());
+        Product product = productList.get(i - 1);
+        System.out.printf(
+          "%s. Name: %s | Price: %s | Price with Discount: %s | Category: %s | Discount: %d%%\n",
+          i,
+          product.getName(),
+          product.getFormatedPrice(),
+          product.getFormatedPriceWithDiscount(),
+          product.getCategory(),
+          product.getDiscountPercentage()
+        );
       }
-      System.out.print("> Choose: ");
+
+      System.out.print("\n> Choose: ");
       int productChoose = scanner.nextInt();
 
       if(productChoose != 0) {
+        Product product = productList.get(productChoose - 1);
         System.out.println("\nProduct removed successfully!");
-        System.out.printf("Name: %s | Price: %s | Category: %s\n", productList.get(productChoose - 1).getProductName(), productList.get(productChoose - 1).getProductPrice(), productList.get(productChoose - 1).getProductCategory());
+        System.out.printf(
+          "Name: %s | Price: %s | Price with Discount: %s | Category: %s | Discount: %d%%\n",
+          product.getName(),
+          product.getFormatedPrice(),
+          product.getPriceWithDiscount(),
+          product.getCategory(),
+          product.getDiscountPercentage()
+        );
+
         productList.remove(productChoose - 1);
       }
     }
@@ -111,13 +131,27 @@ public class Main {
   private static void addCategory(Scanner scanner) {
     scanner.nextLine();
 
-    System.out.print("\n> Category name: ");
-    String categoryName = scanner.nextLine();
+    String productCategory;
+    while(true) {
+      System.out.println("\n=== Categories ===");
+      System.out.println("0. Back");
+      for(int i = 1; i <= categoryList.size(); i++) {
+        System.out.printf("- %s%n", categoryList.get(i - 1));
+      }
+      System.out.print("\n> Category: ");
+      productCategory = scanner.nextLine();
 
-    if(categoryName.isBlank()) {
-      showMenu();
-    } else {
-      categoryList.add(categoryName);
+      if(Objects.equals(productCategory, "0")) {
+        break;
+      } else {
+        categoryList.add(productCategory);
+      }
     }
+  }
+
+  private static void removeCategory(Scanner scanner) {
+    scanner.nextLine();
+
+    System.out.println("\n=== Categories ===");
   }
 }

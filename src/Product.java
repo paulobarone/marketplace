@@ -1,23 +1,50 @@
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class Product {
   private String name;
   private float price;
   private String category;
+  private int discountPercentage;
 
-  public Product(String name, float price, String category) {
+  public Product(String name, float price, String category, int discountPercentage) {
     this.name = name;
     this.price = price;
     this.category = category;
+    this.discountPercentage = discountPercentage;
   }
 
-  public String getProductName() {
+  public String getName() {
     return name;
   }
 
-  public float getProductPrice() {
+  public float getPrice() {
     return price;
   }
 
-  public String getProductCategory() {
+  public String getFormatedPrice() {
+    return formatedPrice(price);
+  }
+
+  public String getCategory() {
     return category;
+  }
+
+  public int getDiscountPercentage() {
+    return discountPercentage;
+  }
+
+  public float getPriceWithDiscount() {
+    float discountAmount = price * ((float) discountPercentage / 100);
+    return price -= discountAmount;
+  }
+
+  public String getFormatedPriceWithDiscount() {
+    return formatedPrice(getPriceWithDiscount());
+  }
+
+  public String formatedPrice(float price) {
+    NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
+    return currencyFormat.format(price);
   }
 }
