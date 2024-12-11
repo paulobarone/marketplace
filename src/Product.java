@@ -36,7 +36,7 @@ public class Product {
 
   public float getPriceWithDiscount() {
     float discountAmount = price * ((float) discountPercentage / 100);
-    return price -= discountAmount;
+    return price - discountAmount;
   }
 
   public String getFormatedPriceWithDiscount() {
@@ -46,5 +46,22 @@ public class Product {
   public String formatedPrice(float price) {
     NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
     return currencyFormat.format(price);
+  }
+
+  public String getDataProduct() {
+    String productName = this.name;
+    String productFormatedPrice = this.getFormatedPrice();
+    String productFormatedPriceWithDiscount = this.getFormatedPriceWithDiscount();
+    String productCategory = this.category;
+    int productDiscountPercentage = this.discountPercentage;
+
+    return String.format(
+      "Name: %s | Price: %s | Discounted price: %s | Category: %s | Discount: %d%%",
+      productName,
+      productFormatedPrice,
+      productFormatedPriceWithDiscount,
+      productCategory,
+      productDiscountPercentage
+    );
   }
 }
