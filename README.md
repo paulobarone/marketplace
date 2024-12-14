@@ -13,7 +13,7 @@ Este é um projeto de Marketplace desenvolvido em Java. O objetivo deste projeto
 
 1. Clone o repositório:
       ```sh
-      git clone https://github.com/seu-usuario/marketplace.git
+      git clone https://github.com/paulobarone/marketplace.git
       ```
 
 2. Navegue até o diretório do projeto:
