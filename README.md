@@ -23,12 +23,12 @@ Este é um projeto de Marketplace desenvolvido em Java. O objetivo deste projeto
 
 3. Compile o projeto:
      ```sh
-     javac -d bin src/**/*.java
+     javac src/Main.java
      ```
 
 4. Execute o projeto:
      ```sh
-     java -cp bin Main
+     java src/Main.java
      ```
 
 ## Dependências
