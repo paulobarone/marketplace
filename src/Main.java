@@ -53,7 +53,7 @@ public class Main {
 
   private static void addProduct(Scanner scanner) {
     String productName = getValidString(scanner, "Product name", true);
-    float productPrice = getValidFloat(scanner, "Product price (Ex: 19,50)", false);
+    float productPrice = getValidFloat(scanner, "Product price (Ex: 19.50)", false);
 
     if(categoryList.isEmpty()) {
       System.out.println("\n- Add a category to continue");
